@@ -45,6 +45,10 @@ let rightQestions = 0;
 
 let currentQuestion = 0;
 
+let audioWin = new Audio('sounds/win.mp3');
+let audioLose = new Audio('sounds/lose.mp3');
+
+
 function init() {
     document.getElementById('all-questions').innerHTML = questions.length;
 
@@ -55,28 +59,12 @@ function showQuestion() {
 
     if(currentQuestion >= questions.length){
         // Endscreen
-        document.getElementById('endScreen').style = '';
-        document.getElementById('questionBody').style = 'display: none';
-        document.getElementById('cardImage').style = 'display: none';
-        document.getElementById('amount-of-Qestions').innerHTML = questions.length;
-        document.getElementById('amount-of-right-questions').innerHTML = rightQestions
+        showEndscreen();
     
     } else { // nächste Frage anzeigen
-    
-    let percent = (currentQuestion + 1) / questions.length;
-    percent = Math.round(percent * 100);
-    document.getElementById('progress-bar').innerHTML = `${percent}%`;
 
-    document.getElementById('progress-bar').style = `width: ${percent}%`;
-    
-    let question = questions[currentQuestion]; // holen uns die Nullte Farge
-
-    document.getElementById('question-number').innerHTML = currentQuestion + 1;
-    document.getElementById('questiontext').innerHTML = question['question'];
-    document.getElementById('answer_1').innerHTML = question['answer_1'];
-    document.getElementById('answer_2').innerHTML = question['answer_2'];
-    document.getElementById('answer_3').innerHTML = question['answer_3'];
-    document.getElementById('answer_4').innerHTML = question['answer_4'];
+        updateProgressBar();
+        nextQuestionShow();
     }
 }
 
@@ -90,10 +78,12 @@ function answer(selection){
 
     if (selectedquestionNumber == question['right_answer']) {
         document.getElementById(selection).parentNode.classList.add('bg-success');
+        audioWin.play();
         rightQestions++;
     } else {
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+        audioLose.play();
     }
 
     document.getElementById('next-button').disabled = false;
@@ -131,4 +121,35 @@ function restartGame() {
     currentQuestion = 0;
 
     init();
+}
+
+function showEndscreen() {
+    
+    document.getElementById('endScreen').style = '';
+    document.getElementById('questionBody').style = 'display: none';
+    document.getElementById('cardImage').style = 'display: none';
+    document.getElementById('amount-of-Qestions').innerHTML = questions.length;
+    document.getElementById('amount-of-right-questions').innerHTML = rightQestions
+}
+
+function nextQuestionShow() {
+    
+
+    let question = questions[currentQuestion]; // holen uns die Nullte Farge
+
+    document.getElementById('question-number').innerHTML = currentQuestion + 1;
+    document.getElementById('questiontext').innerHTML = question['question'];
+    document.getElementById('answer_1').innerHTML = question['answer_1'];
+    document.getElementById('answer_2').innerHTML = question['answer_2'];
+    document.getElementById('answer_3').innerHTML = question['answer_3'];
+    document.getElementById('answer_4').innerHTML = question['answer_4'];
+}
+
+function updateProgressBar() {
+   
+    let percent = (currentQuestion + 1) / questions.length;
+    percent = Math.round(percent * 100);
+    document.getElementById('progress-bar').innerHTML = `${percent}%`;
+
+    document.getElementById('progress-bar').style = `width: ${percent}%`;
 }
