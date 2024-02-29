@@ -30,3 +30,18 @@ body {
 .bg-success, .bg-danger {
     color: white !important;
 }
+
+.text-center {
+    text-align: center;
+}
+
+.quiz-text-end {
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
